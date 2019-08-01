@@ -1,0 +1,72 @@
+a:2:{s:6:"expire";i:1564559507;s:7:"headers";a:0:{}}ENDCI--->
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>栏目管理</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=emulateIE7" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" type="text/css" href="http://localhost:8066/other/_admin/css/index.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="http://localhost:8066/other/layui/css/layui.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="http://localhost:8066/other/layui/css/iconfont.css" media="all" />
+    <style>
+        .iconfont{margin: 0 4px;color:Black;font-size: 16px}
+        .td_cname{display: block;margin-left: 15px;}
+        .layui-form-checkbox i{border-left: 1px solid #d2d2d2;top:1px!important}
+        .layui-icon-ok{}
+        .layui-table-cell div{margin: 0 5px!important}
+        .laytable-cell-1-0-2 i{margin-top: 3px}
+        .layui-breadcrumb{visibility:visible}
+      
+    </style>
+</head>
+<body>
+    <div id="main">
+        <div class="layui-row new_nav">
+            <span class="layui-breadcrumb" lay-separator="">
+                <a href="#" onclick="javascript :history.back(-1);"><i class="layui-icon icon iconfont">&#xe62f;</i>返回上一页</a>
+                <a href="http://localhost:8066/admin.php/Index/main"><i class="layui-icon">&#xe68e;</i>首页</a>
+                <a href="javascript:;">栏目管理</a>
+            </span>
+        </div>
+
+        <div class="layui-row new_list_main_operation">
+            <div class="layui-col-md2 ">
+                <ul >
+                    <li><a href="http://localhost:8066/admin.php/Navigation/show"><i class="icon iconfont">&#xe621;</i>新增</a></li>
+                    <li><a href="javascript:;" id="alldelete" ><i class="layui-icon">&#xe640;</i>修改</a></li>
+                </ul>
+            </div>
+        </div>
+        <table class="layui-table tab_content" lay-filter="news_category">
+            <thead>
+                <tr>
+                    <th lay-data="{field:'title', width:300}">导航名称</th>
+                    <th lay-data="{field:'powername'}">权限分配</th>
+
+                </tr> 
+            </thead>
+            <tbody>
+<tr><td><i class="icon iconfont">&#xe65a;</i>平台管理</td><td><input class='checkid' name='allck[]' value=1-news-view type='checkbox'>显示</td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="icon iconfont">&#xe612;</i><i class="icon iconfont">&#xe65a;</i>新闻管理</td><td><input class='checkid' name='allck[]' value=7-news-view type='checkbox'>显示</td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="icon iconfont">&#xe612;</i><i class="icon iconfont">&#xe65a;</i>内容管理</td><td><input class='checkid' name='allck[]' value=8-news-index type='checkbox'>显示<input class='checkid' name='allck[]' value=8-news-show type='checkbox'>查看<input class='checkid' name='allck[]' value=8-news-edit type='checkbox'>修改<input class='checkid' name='allck[]' value=8-news-add type='checkbox'>新增</td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="icon iconfont">&#xe612;</i><i class="icon iconfont">&#xe65a;</i>分类管理</td><td><input class='checkid' name='allck[]' value=9-news_category-index type='checkbox'>显示<input class='checkid' name='allck[]' value=9-news_category-show type='checkbox'>查看<input class='checkid' name='allck[]' value=9-news_category-edit type='checkbox'>修改<input class='checkid' name='allck[]' value=9-news_category-add type='checkbox'>新增</td></tr><tr><td><i class="icon iconfont">&#xe65a;</i>控制面板</td><td><input class='checkid' name='allck[]' value=2-admin-view type='checkbox'>显示</td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="icon iconfont">&#xe612;</i><i class="icon iconfont">&#xe65a;</i>系统管理</td><td><input class='checkid' name='allck[]' value=5-systems-view type='checkbox'>显示</td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="icon iconfont">&#xe612;</i><i class="icon iconfont">&#xe65a;</i>系统设置</td><td><input class='checkid' name='allck[]' value=25-systems-index type='checkbox'>显示<input class='checkid' name='allck[]' value=25-systems-edit type='checkbox'>修改</td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="icon iconfont">&#xe612;</i><i class="icon iconfont">&#xe65a;</i>导航栏目管理</td><td><input class='checkid' name='allck[]' value=26-navigation-index type='checkbox'>显示<input class='checkid' name='allck[]' value=26-navigation-show type='checkbox'>查看<input class='checkid' name='allck[]' value=26-navigation-add type='checkbox'>新增</td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="icon iconfont">&#xe612;</i><i class="icon iconfont">&#xe65a;</i>系统用户</td><td><input class='checkid' name='allck[]' value=10-admin-view type='checkbox'>显示</td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="icon iconfont">&#xe612;</i><i class="icon iconfont">&#xe65a;</i>管理员管理</td><td><input class='checkid' name='allck[]' value=11-admin-index type='checkbox'>显示<input class='checkid' name='allck[]' value=11-admin-show type='checkbox'>查看<input class='checkid' name='allck[]' value=11-admin-edit type='checkbox'>修改<input class='checkid' name='allck[]' value=11-admin-add type='checkbox'>新增</td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="icon iconfont">&#xe612;</i><i class="icon iconfont">&#xe65a;</i>角色管理</td><td><input class='checkid' name='allck[]' value=12-role-index type='checkbox'>显示<input class='checkid' name='allck[]' value=12-role-show type='checkbox'>查看<input class='checkid' name='allck[]' value=12-role-edit type='checkbox'>修改<input class='checkid' name='allck[]' value=12-role-add type='checkbox'>新增</td></tr><tr><td><i class="icon iconfont">&#xe65a;</i>会员管理</td><td><input class='checkid' name='allck[]' value=3-user-view type='checkbox'>显示</td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="icon iconfont">&#xe612;</i><i class="icon iconfont">&#xe65a;</i> 会员管理</td><td><input class='checkid' name='allck[]' value=14-user-view type='checkbox'>显示</td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="icon iconfont">&#xe612;</i><i class="icon iconfont">&#xe65a;</i>所有会员</td><td><input class='checkid' name='allck[]' value=15-user-index type='checkbox'>显示<input class='checkid' name='allck[]' value=15-user-show type='checkbox'>查看<input class='checkid' name='allck[]' value=15-user-edit type='checkbox'>修改<input class='checkid' name='allck[]' value=15-user-add type='checkbox'>新增</td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="icon iconfont">&#xe612;</i><i class="icon iconfont">&#xe65a;</i>会员组别</td><td><input class='checkid' name='allck[]' value=19-user_group-index type='checkbox'>显示<input class='checkid' name='allck[]' value=19-user_group-show type='checkbox'>查看<input class='checkid' name='allck[]' value=19-user_group-edit type='checkbox'>修改<input class='checkid' name='allck[]' value=19-user_group-add type='checkbox'>新增</td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="icon iconfont">&#xe612;</i><i class="icon iconfont">&#xe65a;</i>会员日志</td><td><input class='checkid' name='allck[]' value=20-user_log-view type='checkbox'>显示</td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="icon iconfont">&#xe612;</i><i class="icon iconfont">&#xe65a;</i>充值记录</td><td><input class='checkid' name='allck[]' value=21-user_recharge-index type='checkbox'>显示<input class='checkid' name='allck[]' value=21-user_recharge-show type='checkbox'>查看<input class='checkid' name='allck[]' value=21-user_recharge-add type='checkbox'>新增</td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="icon iconfont">&#xe612;</i><i class="icon iconfont">&#xe65a;</i>消费记录</td><td><input class='checkid' name='allck[]' value=22-user_amout-index type='checkbox'>显示</td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="icon iconfont">&#xe612;</i><i class="icon iconfont">&#xe65a;</i>积分纪录</td><td><input class='checkid' name='allck[]' value=24-user_point_log-index type='checkbox'>显示</td></tr><tr><td><i class="icon iconfont">&#xe65a;</i>订单管理</td><td><input class='checkid' name='allck[]' value=4-order-view type='checkbox'>显示</td></tr><tr><td><i class="icon iconfont">&#xe65a;</i>这是大分类</td><td><input class='checkid' name='allck[]' value=97-ttt-view type='checkbox'>显示</td></tr>            </tbody>
+        </table>
+    </div>
+
+    <script type="text/javascript" src="http://localhost:8066/other/layui/layui.js"></script>
+    <script type="text/javascript" src="http://localhost:8066/other/layui/iconfont.js"></script>
+    <script>
+                    layui.use(['jquery', 'element', 'form', 'table'], function () {
+                        var layer = layui.layer;
+                        var form = layui.form;
+                        var element = layui.element;
+                        window.jQuery = window.$ = layui.jquery;
+                        var table = layui.table;
+                        
+                        //转换静态表格
+                        table.init('news_category', {
+                            limit: 100 //注意：请务必确保 limit 参数（默认：10）是与你服务端限定的数据条数一致
+                                    //支持所有基础参数
+                        });
+                    });
+    </script>
+    <script type="text/javascript" src="http://localhost:8066/other/_admin/js/jquery_3.3.1.min.js"></script>
+        <script type="text/javascript" src="http://localhost:8066/other/_admin/js/common.js"></script>
+</body>
+</html>
