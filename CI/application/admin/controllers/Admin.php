@@ -5,8 +5,6 @@ class admin extends MY_Controller {
 
     public function __construct() {
         parent::__construct();
-        $this->load->model('System_model');
-        $this->load->model('Common_model');
         $this->load->library('form_validation');
         $this->islogin_or_rule();
     }
@@ -19,7 +17,7 @@ class admin extends MY_Controller {
         $data = array
             (
             'admin_list' => $this->System_model->get_admin(FALSE),
-            'admin_role' => $this->System_model->get_role(0)
+            'admin_role' => $this->System_model->get_role()
         );
         $this->load->view('systems/admin_list', $data);
     }
@@ -29,7 +27,7 @@ class admin extends MY_Controller {
      */
     public function show() {
         $id = $this->uri->segment(3);
-        $data['admin_role'] = $this->System_model->get_role(0);
+        $data['admin_role'] = $this->System_model->get_role();
         if ($id == FALSE) {
             $this->load->view('systems/admin_add', $data);
         } else {
@@ -43,8 +41,7 @@ class admin extends MY_Controller {
      */
     public function edit() {
         if ($_POST) {
-            $data = $this->input->post();
-            $this->operation($data, '修改', $data['id']);
+            $this->operation('修改');
         } else {
             $this->error_msg("非法操作", FALSE);
         }
@@ -55,15 +52,12 @@ class admin extends MY_Controller {
      */
     public function add() {
         if ($_POST) {
-            $data = $this->input->post();
-            $this->operation($data, '新增',FALSE);
+            $this->operation( '新增');
         } else {
             $this->error_msg("非法操作", FALSE);
         }
     }
     
-    
-     
     /**
      * 管理员删除     /
      */
@@ -77,35 +71,44 @@ class admin extends MY_Controller {
     public function change() {
         $this->contro_list_opreation("admin", $this->router->fetch_method(), '管理员');
     }
-    
-    
+   
     
     /**
      * 新增和修改时调用
      */     
-    public function operation($data, $type, $id) {
+    public function operation($type) {
         $this->form_validation->set_rules('UserName', 'UserName', 'required|alpha_dash', '用户名不能输入汉字,请输入正确的格式');
         $this->form_validation->set_rules('Password', 'Password', 'required|alpha_dash', '用户名不能输入汉字,请输入正确的格式');
         if ($this->form_validation->run() == FALSE) {
-            $this->error_msg("用户名和密码不能输入汉字,请输入正确的格式",FALSE);
-        } else {
-            foreach ($data as $key => $value) {
-                $data[$key] = trim($data[$key]);
-            }
-            if ($type == '新增') {
-                //给salt赋值一个随机的6位数字字母数
-                $data['salt'] = $this->getRandomString();
-            } else {
-                //如果密码没有修改
-                if ($data['Password'] == "0_0_0_0") {
-                    $data['Password'] == $data['is_pass'];
-                }
-            }
-            $data['Password'] = md5($data['salt'] . $data['Password']);
-            $result = $this->System_model->operation_admin($data, $id);
-            $this->msg($result, $type . '管理员', $this->router->fetch_method(), $data['UserName'], 'admin/index');
+            $this->error_msg("xx输入汉字,请输入正确的格式", FALSE);
+            exit;
         }
+        $list = $this->input->post();
+        $data = $this->loop_trim($list);
+
+        if ($type == '新增') {
+            //给salt赋值一个随机的6位数字字母数
+            $data['salt'] = $this->getRandomString();
+        } else {
+            //如果密码没有修改
+            if ($data['Password'] == "0_0_0_0") {
+                $data['Password'] == $data['is_pass'];
+            }
+        }
+        $data['Password'] = md5($data['salt'] . $data['Password']);
+        $id = isset($data['id']) == TRUE ? $data['id'] : False;
+        $result = $this->System_model->operation_admin($data, $id);
+        $this->msg($result, $type . '管理员', $this->router->fetch_method(), $data['UserName'], 'admin/index');
     }
+
+    public function run_form()
+    {
+        
+    }
+    
+    
+    
+    
 
     /**
      *  上传成功后返回图片路径 /

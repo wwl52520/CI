@@ -68,7 +68,7 @@ class System_model extends CI_Model {
     /**
      * 获取角色种类
      */
-    public function get_role($role) {
+    public function get_role($role=false) {
         if ($role == FALSE) {
             return $this->db->get('admin_role')->result_array();
         }
