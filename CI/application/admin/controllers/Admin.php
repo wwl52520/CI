@@ -2,7 +2,6 @@
 
 class admin extends MY_Controller {
 
-
     public function __construct() {
         parent::__construct();
         $this->load->library('form_validation');
@@ -46,46 +45,39 @@ class admin extends MY_Controller {
             $this->error_msg("非法操作", FALSE);
         }
     }
-    
+
     /**
      *  管理员新增 /
      */
     public function add() {
         if ($_POST) {
-            $this->operation( '新增');
+            $this->operation('新增');
         } else {
             $this->error_msg("非法操作", FALSE);
         }
     }
-    
+
     /**
      * 管理员删除     /
      */
     public function delete() {
         $this->contro_list_opreation("admin", $this->router->fetch_method(), '管理员');
     }
-    
+
     /**
      * 管理员审核     /
      */
     public function change() {
         $this->contro_list_opreation("admin", $this->router->fetch_method(), '管理员');
     }
-   
-    
+
     /**
      * 新增和修改时调用
-     */     
+     */
     public function operation($type) {
-        $this->form_validation->set_rules('UserName', 'UserName', 'required|alpha_dash', '用户名不能输入汉字,请输入正确的格式');
-        $this->form_validation->set_rules('Password', 'Password', 'required|alpha_dash', '用户名不能输入汉字,请输入正确的格式');
-        if ($this->form_validation->run() == FALSE) {
-            $this->error_msg("xx输入汉字,请输入正确的格式", FALSE);
-            exit;
-        }
+        $this->run_form();
         $list = $this->input->post();
         $data = $this->loop_trim($list);
-
         if ($type == '新增') {
             //给salt赋值一个随机的6位数字字母数
             $data['salt'] = $this->getRandomString();
@@ -101,14 +93,17 @@ class admin extends MY_Controller {
         $this->msg($result, $type . '管理员', $this->router->fetch_method(), $data['UserName'], 'admin/index');
     }
 
-    public function run_form()
-    {
-        
+    /**
+     * 判断用户名密码的格式     /
+     */
+    public function run_form() {
+        $this->form_validation->set_rules('UserName', 'UserName', 'required|alpha_dash', '用户名不能输入汉字,请输入正确的格式');
+        $this->form_validation->set_rules('Password', 'Password', 'required|alpha_dash', '用户名不能输入汉字,请输入正确的格式');
+        if ($this->form_validation->run() == FALSE) {
+            $this->error_msg("xx输入汉字,请输入正确的格式", FALSE);
+            exit;
+        }
     }
-    
-    
-    
-    
 
     /**
      *  上传成功后返回图片路径 /
@@ -116,7 +111,7 @@ class admin extends MY_Controller {
     public function return_img() {
         $this->do_uploads();
     }
-    
+
     //用户输入用户名时判断用户名是否已经存在
     public function get_username() {
         $username = trim($this->input->post('uname'));
@@ -134,13 +129,7 @@ class admin extends MY_Controller {
      *  列表页面返回 /
      */
     public function return_list() {
-        //获取页数跟每页条数
-        $page = $this->input->get('page');
-        $limit = $this->input->get('limit');
-        $page = (int) ($page - 1) * (int) $limit;
-        $keyword = $this->input->get('keyword');
-        //分页查询
-        $table = $this->Common_model->pages('admin', $limit, $page, $keyword, '', '');
+        $table = $this->my_return_list();
         if ($table) {
             for ($j = 0; $j < count($table); $j++) {
                 $table[$j]['ctime'] = Date('Y-m-d', $table[$j]['ctime']);
@@ -154,7 +143,6 @@ class admin extends MY_Controller {
         } else {
             $res['total'] = 0;
         }
-
         $res['status'] = 200;
         $res['hint'] = '';
         $res['rows'] = $table;

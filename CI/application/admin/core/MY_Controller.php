@@ -213,7 +213,20 @@ class MY_Controller extends CI_Controller {
         }
     }
 
-      /**
+   
+    
+    public function my_return_list() {
+        //获取页数跟每页条数
+        $data = array('page' => '', 'limit' => '', 'keyword' => '', 'category' => '', 'status' => '');
+        $list = $this->input->get();
+        foreach ($list as $key => $value) {
+            $data[$key] = trim($list[$key]);
+        }
+     $table = $this->Common_model->pages('admin', $data['limit'], $data['page'], $data['keyword'],$data['category'],$data['status']);
+     return $table;
+    }
+
+    /**
      * 输出成功消息
      * @param type $content 输出内容
      * @param type $link    跳转连接 /
