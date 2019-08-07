@@ -155,39 +155,12 @@
                     layer.confirm('确定删除行?', function (index) {
                        // obj.del();
                       //  layer.close(index);
-                        deletes(data['id'],"<?php echo site_url().$this->router->fetch_class() ?>/delete");
+                        del_or_change(data['ID'],"<?php echo site_url().$this->router->fetch_class() ?>/delete","delete");
                     });
                 }
             });
 
-        //导航栏删除
-        $("#alldelete").click(function () {
-            if ($(".layui-form-checkbox").hasClass("layui-form-checked")) {
-                var checkStatus = table.checkStatus('newsRoload');
-                var data = checkStatus.data;
-                var $id = '';
-                if (data.length > 0) {
-                    layer.confirm('确定删除行?', {
-                        btn: ['取消', '确定'],
-                        btn2: function (index) {
-
-                            for (var i = 0; i < data.length; i++) {
-                                $id += ',' + data[i]['ID']; //这里的ID指代数据中的ID ，要保持和数据库中的字段一致
-                            }
-                            del_or_change($id,"<?php echo site_url().$this->router->fetch_class() ?>/delete","delete");
-                           // console.log(checkStatus.data) //获取选中行的数据
-                           // console.log(checkStatus.data.length) //获取选中行数量，可作为是否有选中行的条件
-                           // console.log(checkStatus.isAll) //表格是否全选   
-                        }
-                    });
-                }
-            } else {
-                layer.open({
-                    title: '提示',
-                    content: '请选择你要删除的行！'
-                });
-            }
-        });
+  
         //.on将元素添加某个时间
         $("#serach_news").on('click', function () {
             var type = $(this).data('type');

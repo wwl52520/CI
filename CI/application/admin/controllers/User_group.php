@@ -80,12 +80,7 @@ class User_group extends MY_Controller {
      *  列表页面返回 /
      */
     public function return_list() {
-        //获取页数跟每页条数
-        $page = $this->input->get('page');
-        $limit = $this->input->get('limit');
-        $page = (int) ($page - 1) * (int) $limit;
-        //分页查询
-        $table = $this->Common_model->pages('user_group', $limit, $page, '', '', '');
+        $table = $this->my_return_list('admin_log');
         if ($table) {
             for ($j = 0; $j < count($table); $j++) {
                 if ($table[$j]['is_default'] == 0) {

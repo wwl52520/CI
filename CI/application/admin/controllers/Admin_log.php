@@ -14,14 +14,7 @@ class admin_log extends MY_Controller {
      *  列表页面返回 /
      */
     public function return_list() {
-        //获取页数跟每页条数
-        $page = $this->input->get('page');
-        $limit = $this->input->get('limit');
-        $page = (int) ($page - 1) * (int) $limit;
-        $keyword = $this->input->get('keyword');
-        //分页查询
-        $table = $this->Common_model->pages('admin_log', $limit, $page, $keyword, '', '');
-
+       $table = $this->my_return_list('admin_log');
         if ($table) {
             for ($i = 0; $i < count($table); $i++) {
                 if ($table[$i]['user_ip'] == "::1") {

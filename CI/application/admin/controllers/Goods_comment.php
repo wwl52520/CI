@@ -50,14 +50,7 @@ class Goods_comment extends MY_Controller {
 
     //列表页面返回
     public function return_list() {
-        //获取页数跟每页条数
-        $page = $this->input->get('page');
-        $limit = $this->input->get('limit');
-        $page = (int) ($page - 1) * (int) $limit;   //分页计算
-        $keyword = $this->input->get('keyword');
-        $status = $this->input->get('status');
-        //分页查询
-        $table = $this->Common_model->pages('goods_comment', $limit, $page, $keyword, '', $status);
+         $table = $this->my_return_list('goods_comment');
         if ($table) {
             for ($j = 0; $j < count($table); $j++) {
                 $table[$j]['add_time'] = Date('Y-m-d H:i', $table[$j]['add_time']);

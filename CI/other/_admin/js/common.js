@@ -30,7 +30,7 @@ $(".layui-left ul li dl dd",parent.document).click(function()
     
     
      //列表数据删除
-    function del_or_change($id,$url,$type="del") {
+    function del_or_change($id,$url,$type="delete") {
         $.ajax({
             url: $url,
             type: "post",

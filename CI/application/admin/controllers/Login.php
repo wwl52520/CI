@@ -38,7 +38,8 @@ Class Login extends MY_Controller {
             $user = $this->Login_model->get_user($data['UserName']);
             if ($user) {
                 $salt = $user['salt'];
-                $pass = md5($salt + trim($this->input->post('password')));
+               $data['Password']=$this->input->post('password');
+                $pass = md5($data['Password'].$salt );
                 if (strncmp($user['Password'], $pass, 32) == 0) {
                     if ($user['islock'] == 0) {
                         $this->error_msg("您的账号被锁定", FALSE);

@@ -215,15 +215,16 @@ class MY_Controller extends CI_Controller {
 
    
     
-    public function my_return_list() {
+    public function my_return_list($table) {
         //获取页数跟每页条数
         $data = array('page' => '', 'limit' => '', 'keyword' => '', 'category' => '', 'status' => '');
         $list = $this->input->get();
         foreach ($list as $key => $value) {
             $data[$key] = trim($list[$key]);
         }
-     $table = $this->Common_model->pages('admin', $data['limit'], $data['page'], $data['keyword'],$data['category'],$data['status']);
-     return $table;
+        //page页数字要从0开始
+        $table = $this->Common_model->pages($table, $data['limit'], $data['page'] - 1, $data['keyword'], $data['category'], $data['status']);
+        return $table;
     }
 
     /**

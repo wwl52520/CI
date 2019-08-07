@@ -127,14 +127,7 @@ class Goods_spec extends MY_Controller {
      * 列表页面返回信息
      */
     public function return_list() {
-        //获取页数跟每页条数
-        $page = $this->input->get('page');
-        $limit = $this->input->get('limit');
-        $page = (int) ($page - 1) * (int) $limit;   //分页计算
-        $dt = [];
-        $ss = '';
-        //分页查询
-        $table = $this->Common_model->pages('spec', $limit, $page, '', '', '');
+          $table = $this->my_return_list('spec');
         if ($table) {
             for ($j = 0; $j < count($table); $j++) {
                 //判断是否是顶级层

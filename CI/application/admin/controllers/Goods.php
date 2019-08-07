@@ -137,15 +137,7 @@ class Goods extends MY_Controller {
 
     //列表页面返回
     public function return_list() {
-        //获取页数跟每页条数
-        $page = $this->input->get('page');
-        $limit = $this->input->get('limit');
-        $page = (int) ($page - 1) * (int) $limit;   //分页计算
-        $keyword = $this->input->get('keyword');
-        $category = $this->input->get('category');
-        $status = $this->input->get('status');
-        //分页查询
-        $table = $this->Common_model->pages('goods', $limit, $page, $keyword, $category, $status);
+        $table = $this->my_return_list('admin');
         if ($table) {
             for ($j = 0; $j < count($table); $j++) {
                 $table[$j]['add_time'] = Date('Y-m-d H:i', $table[$j]['add_time']);

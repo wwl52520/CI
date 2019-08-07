@@ -76,13 +76,7 @@ class User_message extends MY_Controller {
      *  列表页面返回 /
      */
     public function return_list() {
-        //获取页数跟每页条数
-        $page = $this->input->get('page');
-        $limit = $this->input->get('limit');
-        $page = (int) ($page - 1) * (int) $limit;
-        $keyword = $this->input->get('keyword');
-        //分页查询
-        $table = $this->Common_model->pages('user_message', $limit, $page, $keyword, '', '');
+         $table = $this->my_return_list('user_message');
         if ($table) {
             for ($j = 0; $j < count($table); $j++) {
                 $table[$j]['post_time'] = Date('Y-m-d H:i', $table[$j]['post_time']);

@@ -91,12 +91,7 @@ Class News_category extends MY_Controller {
      * 返回分类列表
      */
     public function return_list() {
-        //获取页数跟每页条数
-        $page = $this->input->get('page');
-        $limit = $this->input->get('limit');
-        $page = (int) ($page - 1) * (int) $limit;
-        //分页查询
-        $table = $this->Common_model->pages('news_category', $limit, $page, FALSE, FALSE, FALSE);
+       $table = $this->my_return_list('news_category');
         if ($table) {
             $res['total'] = $table['sum'];
         } else {

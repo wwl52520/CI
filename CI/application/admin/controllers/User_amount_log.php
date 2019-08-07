@@ -16,13 +16,7 @@ class User_amount_log extends MY_Controller {
      *  列表页面返回 /
      */
     public function return_list() {
-        //获取页数跟每页条数
-        $page = $this->input->get('page');
-        $limit = $this->input->get('limit');
-        $page = (int) ($page - 1) * (int) $limit;
-        $keyword = $this->input->get('keyword');
-        //分页查询
-        $table = $this->Common_model->pages('user_amount_log', $limit, $page, $keyword, '', '');
+      $table = $this->my_return_list('user_amount_log');
         if ($table) {
             for ($i = 0; $i < count($table); $i++) {
                 $table[$i]['add_time'] = Date('Y-m-d H:i:s', $table[$i]['add_time']);

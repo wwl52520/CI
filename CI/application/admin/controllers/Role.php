@@ -4,14 +4,12 @@ class Role extends MY_Controller {
 
     public function __construct() {
         parent::__construct();
-        $this->load->helper('url');
-        $this->load->model('Login_model');
         $this->islogin_or_rule();
     }
 
     public function index() {
-        $this->output->cache(1);
-        $data = array('list' => $this->System_model->get_role(0));
+        $this->output->cache(1/10);
+        $data = array('list' => $this->System_model->get_role());
         $this->load->view('systems/role_list', $data);
     }
 
@@ -30,7 +28,6 @@ class Role extends MY_Controller {
     //这里有逻辑bug（代码在   if ($resultlast == $contlength) 这个逻辑判断中，因为有其他的错误导致这两个值不相等） 后期记得解决！
     public function add() {
         $data['role_name'] = trim($this->input->post("role_name"));
-
         $data['controller'] = $this->input->post('allck');
         //先查询是否存在重复的角色名，不存在就新增！
         $result = $this->System_model->add_role($data);
@@ -45,12 +42,7 @@ class Role extends MY_Controller {
         $this->contro_list_opreation("admin_role", $this->router->fetch_method(), '角色');
     }
 
-    /**
-     * 管理员审核     /
-     */
-    public function change() {
-        $this->contro_list_opreation("admin_role", $this->router->fetch_method(), '角色');
-    }
+
 
     //获取前端传过来的ID对应的角色规则
     public function rule_load() {
@@ -72,6 +64,7 @@ class Role extends MY_Controller {
         $result = $this->System_model->update_role($data);
         $this->operation($result, $data, '修改');
     }
+    
 
     //新增或者修改时调用该方法
     public function operation($result, $data, $type) {
@@ -106,12 +99,7 @@ class Role extends MY_Controller {
      *  列表页面返回 /
      */
     public function return_list() {
-        //获取页数跟每页条数
-        $page = $this->input->get('page');
-        $limit = $this->input->get('limit');
-        $page = (int) ($page - 1) * (int) $limit;
-        //分页查询
-        $table = $this->Common_model->pages('admin_role', $limit, $page, '', '', '');
+       $table = $this->my_return_list('admin_role');
         if ($table) {
             $res['total'] = $table[0]['sum'];
         } else {

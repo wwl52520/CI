@@ -62,7 +62,7 @@ echo form_open(site_url()."Admin/edit",$attribut);
                                 <label class="layui-form-label">用户名</label>
                                 <div class="layui-input-inline title">
                                    
-                                    <input type="text" name="UserName"  required lay-verify="username" placeholder="请输入用户名" autocomplete="off" class="layui-input" value="<?=$admin_list['UserName']?>">
+                                    <input type="text" name="UserName"  required lay-verify="username" placeholder="请输入用户名" autocomplete="off" readonly="readonly" class="layui-input" value="<?=$admin_list['UserName']?>">
                                 </div>
                                 <div class="layui-form-mid layui-word-aux loads">*请输入有效的用户名</div>
                             </div>

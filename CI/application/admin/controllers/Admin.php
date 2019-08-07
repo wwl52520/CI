@@ -81,13 +81,14 @@ class admin extends MY_Controller {
         if ($type == '新增') {
             //给salt赋值一个随机的6位数字字母数
             $data['salt'] = $this->getRandomString();
+            $data['Password'] = md5($data['Password'] . $data['salt']);
         } else {
-            //如果密码没有修改
-            if ($data['Password'] == "0_0_0_0") {
+            if ($data['Password'] == "0_0_0_0") {   //如果密码没有修改
                 $data['Password'] == $data['is_pass'];
+            } else {
+                $data['Password'] = md5($data['Password'] . $data['salt']);
             }
         }
-        $data['Password'] = md5($data['salt'] . $data['Password']);
         $id = isset($data['id']) == TRUE ? $data['id'] : False;
         $result = $this->System_model->operation_admin($data, $id);
         $this->msg($result, $type . '管理员', $this->router->fetch_method(), $data['UserName'], 'admin/index');
@@ -102,6 +103,18 @@ class admin extends MY_Controller {
         if ($this->form_validation->run() == FALSE) {
             $this->error_msg("xx输入汉字,请输入正确的格式", FALSE);
             exit;
+        }
+    }
+    
+    /**
+     *  如果修改为当前登录管理员，修改完成后更新session信息（当前后台我们禁用管理员修改用户名）
+     * @param type $id
+     * @param type $name     /
+     */
+    public function change_current_info($id, $name) {
+        $user_id = $this->session->userdate('userid');
+        if ($id == true && $id == $user_id) {
+            $this->session->set_userdate('username', $name);
         }
     }
 
@@ -129,7 +142,8 @@ class admin extends MY_Controller {
      *  列表页面返回 /
      */
     public function return_list() {
-        $table = $this->my_return_list();
+        $table = $this->my_return_list('admin');
+
         if ($table) {
             for ($j = 0; $j < count($table); $j++) {
                 $table[$j]['ctime'] = Date('Y-m-d', $table[$j]['ctime']);

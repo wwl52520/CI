@@ -5,12 +5,10 @@ class User_recharge extends MY_Controller {
     public function __construct() {
         parent::__construct();
         $this->load->model('User_model');
-        $this->load->model('Common_model');
         $this->islogin_or_rule();
     }
 
     public function index() {
-
         $this->load->view('user/user_recharge_list');
     }
 
@@ -32,10 +30,8 @@ class User_recharge extends MY_Controller {
 
     public function add() {
         if ($_POST) {
-            $data = $this->input->post();
-            foreach ($data as $key => $value) {
-                $data[$key] = trim($data[$key]);
-            }
+            $list = $this->input->post();
+            $data = $this->loop_trim($list);
         }
         $data['recharge_no'] = $data['recharge_no'];
         $data['add_time'] = time();
@@ -55,13 +51,7 @@ class User_recharge extends MY_Controller {
      *  列表页面返回 /
      */
     public function return_list() {
-        //获取页数跟每页条数
-        $page = $this->input->get('page');
-        $limit = $this->input->get('limit');
-        $page = (int) ($page - 1) * (int) $limit;
-        $keyword = $this->input->get('keyword');
-        //分页查询
-        $table = $this->Common_model->pages('user_recharge', $limit, $page, $keyword, '', '');
+        $table = $this->my_return_list('user_recharge');
         if ($table) {
             for ($j = 0; $j < count($table); $j++) {
                 $table[$j]['payment_id'] = $table[$j]['title'];
