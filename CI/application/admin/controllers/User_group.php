@@ -30,7 +30,6 @@ class User_group extends MY_Controller {
      */
     public function add() {
         if ($_POST) {
-            $data = $this->input->post();
             $this->operation($data, '新增');
         } else {
             $this->error_msg("非法操作", FALSE);
@@ -42,8 +41,7 @@ class User_group extends MY_Controller {
      */
     public function edit() {
         if (isset($_POST['id'])) {
-            $data = $this->input->post();
-            $this->operation($data, '修改');
+            $this->operation('修改');
         } else {
             $this->error_msg("非法操作", FALSE);
         }
@@ -68,10 +66,9 @@ class User_group extends MY_Controller {
      * @param type $data 数据
      * @param type $type 新增/修改    /
      */
-    public function operation($data, $type) {
-        foreach ($data as $key => $value) {
-            $data[$key] = trim($data[$key]);
-        }
+    public function operation($type) {
+        $list = $this->input->post();
+        $data = $this->loop_trim($list);
         $result = $this->User_model->operation_user_group($data);
         $this->msg($result, $type . "会员组别", $this->router->fetch_method(), $data['title'], 'User_group/index');
     }
@@ -83,19 +80,10 @@ class User_group extends MY_Controller {
         $table = $this->my_return_list('admin_log');
         if ($table) {
             for ($j = 0; $j < count($table); $j++) {
-                if ($table[$j]['is_default'] == 0) {
-                    $table[$j]['is_default'] = '×';
-                } else {
-                    $table[$j]['is_default'] = '√';
-                }
+                $table[$j]['is_default'] = $table[$j]['is_defaukt'] == 0 ? '×' : '√';
             }
-            $res['total'] = $table[0]['sum'];
-        } else {
-            $res['total'] = 0;
         }
-        $res['status'] = 200;
-        $res['hint'] = '';
-        $res['rows'] = $table;
+        $res = $this->my_list_res($table);
         echo json_encode($res, JSON_UNESCAPED_UNICODE);        //返回只能用echo  不能用return  并且返回一定要将数组或者对象转为json数组或者对象 
     }
 

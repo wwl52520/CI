@@ -182,7 +182,7 @@
         <script type="text/javascript" src="<?php echo base_url(); ?>other/kindeditor/kindeditor.js"></script>  
         <script charset="utf-8" src="<?php echo base_url(); ?>other/kindeditor/lang/zh-CN.js"></script>
         <script>
-            layui.use(['jquery', 'form', 'laydate', 'layer', 'upload', 'element'], function () {
+  layui.use(['jquery', 'form', 'laydate', 'layer', 'upload', 'element'], function () {
     var form = layui.form;
     var upload = layui.upload;
     var element = layui.element;
@@ -256,27 +256,7 @@
 
     });
 
-    //加载完判断按钮状态
-    window.onload = function () {
-        $("input[name='Status']").each(function () {
-            if ($(this).val() == 0) {
-                $(this).next('div').removeClass('layui-form-onswitch');
-                $(this).next('div').children("em").text("关闭");
-                $(this).prev().attr("value","0");
-            } else {
-                $(this).next('div').addClass('layui-form-onswitch');
-                $(this).next('div').children("em").text("开启");
-                $(this).prev().attr("value","1");
-            }
-        });
 
-        layui.each($("#news_type input"), function () {
-            var values = $(this).val();
-            if (values == 1) {
-                $(this).prev('div').addClass('layui-form-checked');
-            }
-        });
-    };
 
     //checkox事件监听
     form.on('checkbox', function (data) {
@@ -304,12 +284,32 @@
 
         }
     });
-    
-
-
 });
         </script>  
                 <script type="text/javascript" src="<?php echo base_url(); ?>other/_admin/js/jquery_3.3.1.min.js"></script>
                 <script type="text/javascript" src="<?php echo base_url(); ?>other/_admin/js/common.js"></script>
+                <script>
+                    //加载完判断按钮状态
+    window.onload = function () {
+        $("input[name='Status']").each(function () {
+            if ($(this).val() == 0) {
+                $(this).next('div').removeClass('layui-form-onswitch');
+                $(this).next('div').children("em").text("关闭");
+                $(this).prev().attr("value","0");
+            } else {
+                $(this).next('div').addClass('layui-form-onswitch');
+                $(this).next('div').children("em").text("开启");
+                $(this).prev().attr("value","1");
+            }
+        });
+
+        layui.each($("#news_type input"), function () {
+            var values = $(this).val();
+            if (values == 1) {
+                $(this).prev('div').addClass('layui-form-checked');
+            }
+        });
+    };
+                </script>
             </body>
             </html>

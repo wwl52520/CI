@@ -1,8 +1,7 @@
 <?php
 
 Class Navigation extends MY_Controller {
-    
-    
+
     public function __construct() {
         parent::__construct();
         $this->load->helper('url');
@@ -10,12 +9,10 @@ Class Navigation extends MY_Controller {
         $this->islogin_or_rule();
     }
 
-    
     public function index() {
         $this->output->cache(5);
-        $nav=$this->System_model->get_navigation();
-       $data['nav_list'] = $this->tree_all($nav, 0, "nav_list", 0);
-
+        $nav = $this->System_model->get_navigation();
+        $data['nav_list'] = $this->tree_all($nav, 0, "nav_list", 0);
         $this->load->view('systems/navigation_list', $data);
     }
 
@@ -30,16 +27,12 @@ Class Navigation extends MY_Controller {
      */
     public function add() {
         if ($_POST) {
-            $data = $this->input->post();
-            foreach ($data as $key => $value) {
-                $data[$key] = trim($data[$key]);
-            }
+           $list = $this->input->post();
+           $data=$this->loop_trim($list);
             $result = $this->System_model->add_navigation($data);
             $this->msg($result, '新增导航栏目', $this->router->fetch_method(), $data['title'], 'Navigation/index');
-        }
-        else
-        {
-            $this->error_msg('非法操作',FALSE);
+        } else {
+            $this->error_msg('非法操作', FALSE);
         }
     }
 

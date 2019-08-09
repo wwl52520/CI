@@ -47,8 +47,7 @@ Class News_category extends MY_Controller {
      */
     public function add() {
         if ($_POST) {
-            $data = $this->input->post();
-            $this->operation($data, '新增', FALSE);
+            $this->operation('新增');
         } else {
             $this->error_msg("非法操作", FALSE);
         }
@@ -59,8 +58,7 @@ Class News_category extends MY_Controller {
      */
     public function edit() {
         if ($_POST) {
-            $data = $this->input->post();
-            $this->operation($data, '修改', $data['id']);
+            $this->operation('修改');
         } else {
             $this->error_msg("非法操作", FALSE);
         }
@@ -72,10 +70,10 @@ Class News_category extends MY_Controller {
      * @param type $type 类型 新增或者修改
      * @param type $id   id  有id则为修改，没有则false  /
      */
-    public function operation($data, $type, $id) {
-        foreach ($data as $key => $value) {
-            $data[$key] = trim($data[$key]);
-        }
+    public function operation($type) {
+        $list = $this->input->post();
+        $data = $this->loop_trim($list);
+        $id = isset($data['id']) == TRUE ? $data['id'] : FALSE;
         $result = $this->News_model->operation_category($data, $id);
         $this->msg($result, $type . '新闻分类', $this->router->fetch_method(), $data['category_Name'], 'News_category/index');
     }
@@ -91,15 +89,8 @@ Class News_category extends MY_Controller {
      * 返回分类列表
      */
     public function return_list() {
-       $table = $this->my_return_list('news_category');
-        if ($table) {
-            $res['total'] = $table['sum'];
-        } else {
-            $res['total'] = 0;
-        }
-        $res['status'] = 200;
-        $res['hint'] = '';
-        $res['rows'] = $table;
+        $table = $this->my_return_list('news_category');
+        $res = $this->my_list_res($table);
         echo json_encode($res, JSON_UNESCAPED_UNICODE);        //返回只能用echo  不能用return  并且返回一定要将数组或者对象转为json数组或者对象 
     }
 

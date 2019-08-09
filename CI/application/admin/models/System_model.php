@@ -36,6 +36,7 @@ class System_model extends CI_Model {
      * @return type     /
      */
     public function operation_admin($data, $id) {
+
         $list = array
             (
             'UserName' => $data['UserName'],
@@ -47,18 +48,14 @@ class System_model extends CI_Model {
             'img' => $data['img'],
             'role_id' => $data['role_id']
         );
-        if ($id == FALSE) {
+        if ($id == FALSE) {         //新增
             $list['createtime'] = time();
             $list['loginhits'] = 0;
             $result = $this->db->insert('admin', $list);
             return $result;
-        } else {
-            if (isset($data['lastlogtime'])) {
-                $list['lastlogtime'] = $data['lastlogtime'];
-            }
-            if (isset($data['lastlogip'])) {
-                $list['lastlogip'] = $data['lastlogip'];
-            }
+        } else {                    //修改
+            $list['lastlogtime'] = isset($data['lastlogtime']) == TRUE ? $data['lastlogtime'] : FALSE;
+            $list['lastlogip'] = isset($data['lastlogip']) == TRUE ? $data['lastlogip'] : FALSE;
             $this->db->where('id', $id);
             $result = $this->db->update('admin', $list);
             return $result;
@@ -165,7 +162,8 @@ class System_model extends CI_Model {
     */
     //
     public function delete_admin_log() {
-        $sql = "delete from admin_log where add_time < DATE_SUB(now(), INTERVAL 7 DAY)";
+        //时间日期越小，则数值越大，这里比如8.9-7=8.2  那么日期在8.2之前的数据就都7天之前的数据
+        $sql = "delete from admin_log where add_time > DATE_SUB(now(), INTERVAL 7 DAY)";
         $this->db->query($sql);
         return $this->db->affected_rows();
     }

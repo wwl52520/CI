@@ -64,7 +64,7 @@ class Goods_model extends CI_Model {
      * @param type $id
      * @return type     /
      */
-    public function operation_goods($data, $id) {
+    public function operation_goods($data, $id=False) {
         
         $returns = $this->operation_goods_spec($data, $id);
         if (isset($returns['@res']) && $returns['@res'] > 0) {

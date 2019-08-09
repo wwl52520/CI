@@ -57,19 +57,10 @@ class User_recharge extends MY_Controller {
                 $table[$j]['payment_id'] = $table[$j]['title'];
                 $table[$j]['add_time'] = Date('Y-m-d H:i', $table[$j]['add_time']);
                 $table[$j]['complete_time'] = Date('Y-m-d H:i', $table[$j]['complete_time']);
-                if ($table[$j]['status'] == 0) {
-                    $table[$j]['status'] = '未完成';
-                } else {
-                    $table[$j]['status'] = '已完成' . '(' . $table[$j]['complete_time'] . ')';
-                }
+                $table[$j]['status'] = $table[$j]['status'] == 0 ? "未完成" : '已完成' . '(' . $table[$j]['complete_time'] . ')';
             }
-            $res['total'] = $table[0]['sum'];
-        } else {
-            $res['total'] = 0;
         }
-        $res['status'] = 200;
-        $res['hint'] = '';
-        $res['rows'] = $table;
+        $res = $this->my_list_res($table);
         echo json_encode($res, JSON_UNESCAPED_UNICODE);        //返回只能用echo  不能用return  并且返回一定要将数组或者对象转为json数组或者对象 
     }
 

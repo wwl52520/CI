@@ -24,7 +24,6 @@ class Goods_spec extends MY_Controller {
             $this->load->view('goods/spec_add');
         } else {
             $data['list'] = $this->Goods_model->get_spec($id);
-            
             $this->load->view('goods/spec_edit', $data);
         }
     }
@@ -48,23 +47,20 @@ class Goods_spec extends MY_Controller {
     public function edit() {
         if ($_POST) {
             $data = $this->input->post();
-           
+
             $this->operation($data, '修改');
         } else {
             $this->error_msg("非法操作!");
         }
     }
 
-  /**
+    /**
      * 规格删除     /
      */
     public function delete() {
         $this->contro_list_opreation("spec", $this->router->fetch_method(), '规格');
     }
-    
 
-    
-    
     /**
      * 增加和修改时调用
      * @param type $data
@@ -127,7 +123,7 @@ class Goods_spec extends MY_Controller {
      * 列表页面返回信息
      */
     public function return_list() {
-          $table = $this->my_return_list('spec');
+        $table = $this->my_return_list('spec');
         if ($table) {
             for ($j = 0; $j < count($table); $j++) {
                 //判断是否是顶级层
@@ -145,19 +141,15 @@ class Goods_spec extends MY_Controller {
                             if ($table[$i]['img_url'] == FALSE) {
                                 $dt[$j]['remake'] .= '<span class="spec_box">' . $table[$i]['title'] . '</span>' . " ";
                             } else {
-                                $dt[$j]['remake'] .= '<span class="spec_box" style="border:none" title="' . $table[$i]['title'] . '"><img src="/' . $table[$i]['img_url'] . '" alt="' . $table[$i]['title'] . '">';
+                                $dt[$j]['remake'] .= '<span class="spec_box" style="border:none" title="' . $table[$i]['title'] . '">'
+                                        . '<img src="/' . $table[$i]['img_url'] . '" alt="' . $table[$i]['title'] . '">';
                             }
                         }
                     }
                 }
             }
-            $res['total'] = $table[0]['sum'];
-        } else {
-            $res['total'] = 0;
         }
-        $res['status'] = 200;
-        $res['hint'] = '';
-        $res['rows'] = $dt;
+        $res = $this->my_list_res($table);
         echo json_encode($res, JSON_UNESCAPED_UNICODE);        //返回只能用echo  不能用return  并且返回一定要将数组或者对象转为json数组或者对象 
     }
 

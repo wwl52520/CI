@@ -66,6 +66,14 @@
                                         color: "#E6E6E6"
                                     });
                                 });
+                                
+                                    //屏幕发生变化，高度相应变化
+                       $(window).resize(function(){
+                             $(".layui-canvs,.layui-canvs canvas").width($(document).width());
+                              $(".layui-canvs,.layui-canvs canvas").height($(window).height());
+                         });   
+                                
+                                
                 </script>
                 </body>
                 </html>

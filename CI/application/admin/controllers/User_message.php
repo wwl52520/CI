@@ -37,10 +37,8 @@ class User_message extends MY_Controller {
 
     public function add() {
         if ($_POST) {
-            $data = $this->input->post();
-            foreach ($data as $key => $value) {
-                $data[$key] = trim($data[$key]);
-            }
+            $list = $this->input->post();
+            $data=$this->loop_trim($list);
             $data['post_user_name'] = '-';
             $data['is_read'] = 0;
             $data['type'] = 1;
@@ -76,24 +74,15 @@ class User_message extends MY_Controller {
      *  列表页面返回 /
      */
     public function return_list() {
-         $table = $this->my_return_list('user_message');
+        $table = $this->my_return_list('user_message');
         if ($table) {
             for ($j = 0; $j < count($table); $j++) {
                 $table[$j]['post_time'] = Date('Y-m-d H:i', $table[$j]['post_time']);
                 $table[$j]['type'] = $this->get_mess_type($table[$j]['type']);
-                if ($table[$j]['is_read'] == 0) {
-                    $table[$j]['is_read'] = '未阅读';
-                } else {
-                    $table[$j]['is_read'] = '已阅读';
-                }
+                $table[$j]['is_read'] = $table[$j]['is_read'] == 0 ? "未阅读" : "已阅读";
             }
-            $res['total'] = $table[0]['sum'];
-        } else {
-            $res['total'] = 0;
         }
-        $res['status'] = 200;
-        $res['hint'] = '';
-        $res['rows'] = $table;
+        $res = $this->my_list_res($table);
         echo json_encode($res, JSON_UNESCAPED_UNICODE);        //返回只能用echo  不能用return  并且返回一定要将数组或者对象转为json数组或者对象 
     }
 

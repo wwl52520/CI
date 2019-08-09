@@ -31,7 +31,7 @@ class Goods extends MY_Controller {
         if ($id) {
             //获得goods中id为$id相关联的所有表数据
             $goods_all = $this->Goods_model->get_goods($id);
-        
+
             //若果没有上传内容则赋值数组内容为0
             for ($j = 0; $j < count($goods_all); $j++) {
                 if (isset($goods_all[$j]) == FALSE) {
@@ -67,8 +67,7 @@ class Goods extends MY_Controller {
      */
     public function add() {
         if ($_POST) {
-            $data = $this->input->post();
-            $this->operation($data, '新增');
+            $this->operation('新增');
         } else {
             $this->error_msg("非法操作", FALSE);
         }
@@ -79,8 +78,7 @@ class Goods extends MY_Controller {
      */
     public function edit() {
         if ($_POST) {
-            $data = $this->input->post();
-            $this->operation($data, '修改');
+            $this->operation('修改');
         } else {
             $this->error_msg("非法操作", FALSE);
         }
@@ -92,8 +90,9 @@ class Goods extends MY_Controller {
      * @param type $type 类型 新增或者修改
      * @param type $id   id  有id则为修改，没有则false  /
      */
-    public function operation($data, $type) {
-        $this->loop_trim($data);
+    public function operation($type) {
+        $list = $this->input->post();
+        $data = $this->loop_trim($list);
         $data['add_time'] = strtotime($data['add_time']);
         //得到相册数据内容
         $data['goods_albums'] = $this->albums_string($data);
@@ -107,28 +106,24 @@ class Goods extends MY_Controller {
         if (isset($data['id'])) {
             $result = $this->Goods_model->operation_goods($data, $data['id']);
         } else {
-            $result = $this->Goods_model->operation_goods($data, FALSE);
+            $result = $this->Goods_model->operation_goods($data);
         }
         $this->msg($result, $type . '商品', $this->router->fetch_method(), $data['title'], 'Goods/index');
     }
 
-   /**
+    /**
      * 删除     /
      */
     public function delete() {
         $this->contro_list_opreation("goods", $this->router->fetch_method(), '商品');
     }
-    
+
     /**
      * 审核     /
      */
     public function change() {
         $this->contro_list_opreation("goods", $this->router->fetch_method(), '商品');
     }
-    
-    
-    
-    
 
     //上传成功后返回图片路径
     public function return_img() {
@@ -137,23 +132,14 @@ class Goods extends MY_Controller {
 
     //列表页面返回
     public function return_list() {
-        $table = $this->my_return_list('admin');
+        $table = $this->my_return_list('goods');
         if ($table) {
             for ($j = 0; $j < count($table); $j++) {
                 $table[$j]['add_time'] = Date('Y-m-d H:i', $table[$j]['add_time']);
-                if ($table[$j]['status'] == 0) {
-                    $table[$j]['status'] = '未审核';
-                } else {
-                    $table[$j]['status'] = '已审核';
-                }
+                $table[$j]['status'] = $table[$j]['status'] == 0 ? '未审核' : '已审核';
             }
-            $res['total'] = $table[0]['sum'];
-        } else {
-            $res['total'] = 0;
         }
-        $res['status'] = 200;
-        $res['hint'] = '';
-        $res['rows'] = $table;
+        $res = $this->my_list_res($table);
         echo json_encode($res, JSON_UNESCAPED_UNICODE);        //返回只能用echo  不能用return  并且返回一定要将数组或者对象转为json数组或者对象 
     }
 
@@ -162,7 +148,7 @@ class Goods extends MY_Controller {
      * @param type $data     /
      */
     public function albums_string($data) {
-        $goods_albums='';
+        $goods_albums = '';
         if (isset($data['albums']) && count($data['albums']) > 0) {
             for ($i = 0; $i < count($data['albums']); $i++) {
                 $goods_albums .= $data['albums'][$i] . '|';
@@ -174,7 +160,7 @@ class Goods extends MY_Controller {
     }
 
     /**
-     * 动态修改列表页面的属性
+     * 动态修改列表页面的属性 热门/推荐/评论
      */
     public function change_attribute() {
         $name = $this->input->post('name');
@@ -185,19 +171,18 @@ class Goods extends MY_Controller {
     }
 
     /**
-     * 将商品货号数组转成字符串
+     * 将商品货号数组转成字符串 （方便在数据库中存储过程的运算）
      * @param type $data     /
      */
     public function goods_item($data) {
         //将商品规格信息的数组转成字符串
-        $spec_good_item='';
+        $spec_good_item = '';
         if (isset($data['spec_goods_no']) && $data['spec_goods_no'] > 0) {
             for ($j = 0; $j < count($data['spec_goods_no']); $j++) {
                 $spec_good_item .= $data['spec_goods_no'][$j] . '--' . $data['spec_ids'][$j] . '--' . $data['spec_text'][$j] . '--' . $data['spec_stock'][$j] . '--' . $data['spec_market_price'][$j] . '--' . $data['spec_sell_price'][$j] . '|';
             }
             $result = substr($spec_good_item, 0, -1);
             return $result;
-          
         } else {
             $data['goods_spec_list'] = '';
             return '';
@@ -205,7 +190,7 @@ class Goods extends MY_Controller {
     }
 
     /**
-     * 得到商品选中的规格信息
+     * 得到商品选中的规格信息 
      * @param type $data  商品选中的规格信息   /
      */
     public function loop_goods_spec($data) {

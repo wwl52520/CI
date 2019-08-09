@@ -28,7 +28,7 @@
         </div>
         <div class="layui-row new_list_main_operation">
             <div class="layui-col-md1.5">
-                <ul >
+                <ul>
                     <li><a href="javascript:;"  onclick="list_operation('change')" ><i class="layui-icon">&#xe673;</i>审核</a></li>
                     <li><a href="javascript:;" id="delall"><i class="icon iconfont">&#xe74a;</i>全选</a></li>
                     <li><a href="javascript:;" id="alldelete"  onclick="list_operation('delete')"><i class="layui-icon">&#xe640;</i>删除</a></li>

@@ -11,7 +11,6 @@ class MY_Controller extends CI_Controller {
         $this->load->library('session');
     }
 
-    
     /**
      * 判断管理员登录和权限
      */
@@ -20,7 +19,6 @@ class MY_Controller extends CI_Controller {
         if ($user) {
             $role_id = $user['role_id'];
             if ($role_id == "1") {
-                
             }                     //判断是否是超级管理员
             else {
                 $result = $this->System_model->get_role_rules($role_id);
@@ -60,8 +58,8 @@ class MY_Controller extends CI_Controller {
             $error = array('error' => $this->upload->display_errors());     //返回错误
         } else {
             $data = array('upload_data' => $this->upload->data());         //得到文件信息\
-            
-            /*layui 返回格式*/
+
+            /* layui 返回格式 */
             $res['code'] = 0;
             $res['msg'] = '';
             $res['data'] = "Uploads/images/" . $dates . "/" . $data['upload_data']['file_name'];
@@ -121,9 +119,9 @@ class MY_Controller extends CI_Controller {
                 $html .= "<td><input type='checkbox'></td>";
                 $html .= "<td>" . $nav['id'] . "</td>";
                 if ($level <= 1) {
-                    $html .= "<td><a href='" . site_url() . $this->router->fetch_class() ."/show/" . $nav['id'] . "'>" . str_repeat('&nbsp;&nbsp;', $level - 1) . '<i class="icon iconfont">&#xe65a;</i>' . $nav['category_Name'] . "</a></td>";   //函数把字符串重复指定的次数。
+                    $html .= "<td><a href='" . site_url() . $this->router->fetch_class() . "/show/" . $nav['id'] . "'>" . str_repeat('&nbsp;&nbsp;', $level - 1) . '<i class="icon iconfont">&#xe65a;</i>' . $nav['category_Name'] . "</a></td>";   //函数把字符串重复指定的次数。
                 } else {
-                    $html .= "<td><a href='" . site_url() . $this->router->fetch_class()."/show/" . $nav['id'] . "'>" . str_repeat('<i style="padding-left:30px"></i>', $level - 2) . '<i  class="icon iconfont">&#xe612;</i><i class="icon iconfont">&#xe65a;</i>' . $nav['category_Name'] . "</a></td>";   //函数把字符串重复指定的次数。
+                    $html .= "<td><a href='" . site_url() . $this->router->fetch_class() . "/show/" . $nav['id'] . "'>" . str_repeat('<i style="padding-left:30px"></i>', $level - 2) . '<i  class="icon iconfont">&#xe612;</i><i class="icon iconfont">&#xe65a;</i>' . $nav['category_Name'] . "</a></td>";   //函数把字符串重复指定的次数。
                 }
                 $html .= "<td>" . $nav['sort'] . "</td>";
                 $html .= "</tr>";
@@ -170,22 +168,22 @@ class MY_Controller extends CI_Controller {
                 }
                 $html .= "<td>";
                 if (in_array("view", $items)) {
-                    $html .= $this->tree_title($nav['id'], $nav['sub_title'],'view', '显示');
+                    $html .= $this->tree_title($nav['id'], $nav['sub_title'], 'view', '显示');
                 }
                 if (in_array("index", $items)) {
-                    $html .= $this->tree_title($nav['id'], $nav['controller'],'index', '显示');
+                    $html .= $this->tree_title($nav['id'], $nav['controller'], 'index', '显示');
                 }
                 if (in_array("show", $items)) {
-                    $html .= $this->tree_title($nav['id'], $nav['controller'],'show', '查看');
+                    $html .= $this->tree_title($nav['id'], $nav['controller'], 'show', '查看');
                 }
                 if (in_array("edit", $items)) {
-                    $html .= $this->tree_title($nav['id'], $nav['controller'],'edit', '修改');
+                    $html .= $this->tree_title($nav['id'], $nav['controller'], 'edit', '修改');
                 }
                 if (in_array("add", $items)) {
-                    $html .= $this->tree_title($nav['id'], $nav['controller'],'add', '新增');
+                    $html .= $this->tree_title($nav['id'], $nav['controller'], 'add', '新增');
                 }
                 if (in_array("delete", $items)) {
-                    $html .= $this->tree_title($nav['id'], $nav['controller'], 'delete','删除');
+                    $html .= $this->tree_title($nav['id'], $nav['controller'], 'delete', '删除');
                 }
                 $html .= "</td></tr>";
                 $html .= $this->tree_all($cate_nav, $nav['id'], $control, $id, $level);
@@ -194,17 +192,17 @@ class MY_Controller extends CI_Controller {
         return $html;
     }
 
-    function tree_title($id, $title,$ident, $content) {
+    function tree_title($id, $title, $ident, $content) {
 
-        return "<input class='checkid' name='allck[]' value=" . $id . '-' . $title.'-'  .$ident. " type='checkbox'>" . $content;
+        return "<input class='checkid' name='allck[]' value=" . $id . '-' . $title . '-' . $ident . " type='checkbox'>" . $content;
     }
-    
-          /**
+
+    /**
      * 记录管理员日志
      * @param type $data 内容
      */
     public function add_admin_log($data) {
-     
+
         if ($this->session->userdata("sites")) {
             $site = $this->session->userdata("sites");
             if ($site['is_admin_log']) {
@@ -213,8 +211,11 @@ class MY_Controller extends CI_Controller {
         }
     }
 
-   
-    
+    /**
+     * 获取对应数据表的列表分页信息
+     * @param type $table 数据表名
+     * @return type     /
+     */
     public function my_return_list($table) {
         //获取页数跟每页条数
         $data = array('page' => '', 'limit' => '', 'keyword' => '', 'category' => '', 'status' => '');
@@ -228,24 +229,39 @@ class MY_Controller extends CI_Controller {
     }
 
     /**
+     *  数据列表转换后传递到页面的数据列表
+     * @param type $data  /
+     */
+    public function my_list_res($data) {
+        if ($data) {
+            $res['total'] = $data[0]['sum'];
+        } else {
+            $res['total'] = 0;
+        }
+        $res['status'] = 200;
+        $res['hint'] = '';
+        $res['rows'] = $data;
+        return $res;
+    }
+
+    /**
      * 输出成功消息
      * @param type $content 输出内容
      * @param type $link    跳转连接 /
      */
-     public function success_msg($cotnent, $link) {
+    public function success_msg($cotnent, $link) {
         $return = " <script type='text/javascript' src='" . base_url() . "other/layui/layui.js'>";
         $return .= "</script>";
         $return .= "<script>";
         $return .= "layui.use(['layer'], function () {";
         $return .= "var layer = layui.layer;layer.msg('" . $cotnent . "成功！',{icon: 1});";
-        $link= site_url().$link;
-        $return .="setTimeout(function(){window.location.href='".$link."';},1000);";
+        $link = site_url() . $link;
+        $return .= "setTimeout(function(){window.location.href='" . $link . "';},1000);";
         $return .= "})";
         $return .= "</script>";
         echo $return;
     }
 
-    
     /**
      * 输出失败消息
      * @param type $content 输出内容
@@ -266,7 +282,7 @@ class MY_Controller extends CI_Controller {
         $return .= "</script>";
         echo $return;
     }
-    
+
     /**
      * 页面输出成功或者失败信息
      * @param type $query   结果集
@@ -274,11 +290,11 @@ class MY_Controller extends CI_Controller {
      * @param type $link    跳转连接
      * @param type $method  方法
      * @param type $user    操作的对象
-     */ 
-    public function msg($query, $content,$method,$user, $link) {
+     */
+    public function msg($query, $content, $method, $user, $link) {
         if ($query) {
             //记录管理员日志
-            $this->add_admin_log(array('type' => $method, 'remark' => $content .":". $user));
+            $this->add_admin_log(array('type' => $method, 'remark' => $content . ":" . $user));
             $this->success_msg($content, $link);
         } else {
             $this->error_msg($content);
@@ -323,7 +339,7 @@ class MY_Controller extends CI_Controller {
             $msg = $type == "delete" ? "批量删除" : "批量审核";
             $log['remark'] = $msg . $content . $query . "条记录";
             $this->add_admin_log($log);
-            echo '{"count":"' . $query . '","msg":"'.$msg.'"}';
+            echo '{"count":"' . $query . '","msg":"' . $msg . '"}';
         }
         return $query;
     }

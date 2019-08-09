@@ -99,15 +99,8 @@ class Role extends MY_Controller {
      *  列表页面返回 /
      */
     public function return_list() {
-       $table = $this->my_return_list('admin_role');
-        if ($table) {
-            $res['total'] = $table[0]['sum'];
-        } else {
-            $res['total'] = 0;
-        }
-        $res['status'] = 200;
-        $res['hint'] = '';
-        $res['rows'] = $table;
+        $table = $this->my_return_list('admin_role');
+        $res = $this->my_list_res($table);
         echo json_encode($res, JSON_UNESCAPED_UNICODE);        //返回只能用echo  不能用return  并且返回一定要将数组或者对象转为json数组或者对象 
     }
 

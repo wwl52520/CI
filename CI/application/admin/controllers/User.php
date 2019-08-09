@@ -29,9 +29,7 @@ class User extends MY_Controller {
      */
     public function add() {
         if ($_POST) {
-            $data = $this->input->post();
-
-            $this->operation($data, '新增');
+            $this->operation( '新增');
         } else {
             $this->error_msg("非法操作,新增会员信息");
         }
@@ -42,8 +40,7 @@ class User extends MY_Controller {
      */
     public function edit() {
         if ($_POST) {
-            $data = $this->input->post();
-            $this->operation($data, '修改');
+            $this->operation('修改');
         } else {
             $this->error_msg("非法操作!");
         }
@@ -52,10 +49,9 @@ class User extends MY_Controller {
     /**
      *  增加和修改时调用 /
      */
-    public function operation($data, $type) {
-        foreach ($data as $key => $value) {
-            $data[$key] = trim($data[$key]);
-        }
+    public function operation($type) {
+        $list = $this->input->post();
+        $data = $this->loop_trim($list);
         $data['birthaday'] = strtotime($this->input->post('birthaday'));
         $data['password'] = base64_encode($this->input->post('password'));
         if ($type == '新增') {
@@ -120,14 +116,8 @@ class User extends MY_Controller {
                     $table[$j]['status'] = '待审核';
                 }
             }
-            $res['total'] = $table[0]['sum'];
-        } else {
-            $res['total'] = 0;
-        }
-
-        $res['status'] = 200;
-        $res['hint'] = '';
-        $res['rows'] = $table;
+        } 
+         $res = $this->my_list_res($table);
         echo json_encode($res, JSON_UNESCAPED_UNICODE);        //返回只能用echo  不能用return  并且返回一定要将数组或者对象转为json数组或者对象 
     }
 

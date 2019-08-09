@@ -41,12 +41,9 @@
                        $(window).resize(function(){
                               $("body").css('overflow-y','auto');
                                      $(".layui-left").height($(window).height());
-                                    $(".layui-right").width($(document).width()-200);
+                                    $(".layui-right").width($(window).width()-200);
                                     $(".layui-iframe").height($(window).height());
                          });   
-                       
-       
-       
         //session存储本页面，F5刷新时保证页面不会丢失
         //这里是设置了一个值，页面刷新时 页面会自动跳到main.php下面，该文件下则将设置的值赋给iframe的src，从而使地址得到保存
         var links = window.localStorage.getItem("thisurl");
@@ -68,13 +65,7 @@
             $("#"+ left_id).siblings("dd").removeClass('layui-this').end().addClass('layui-this');
             $("#"+ left_id).parents(".layui-nav-item").addClass("layui-nav-itemed");
             $("#"+ left_id).parents(".layui-nav-item").siblings().removeClass("layui-nav-itemed");
-        }
-        
-        
-        
-        
-        
-        
+        }   
 });
       
 

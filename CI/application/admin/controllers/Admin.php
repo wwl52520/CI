@@ -82,10 +82,10 @@ class admin extends MY_Controller {
             //给salt赋值一个随机的6位数字字母数
             $data['salt'] = $this->getRandomString();
             $data['Password'] = md5($data['Password'] . $data['salt']);
-        } else {
-            if ($data['Password'] == "0_0_0_0") {   //如果密码没有修改
-                $data['Password'] == $data['is_pass'];
-            } else {
+        } else {                                                    //修改
+            if ($data['Password'] == "0_0_0_0") {                   //如果密码没有修改
+                $data['Password'] = $data['is_pass'];
+            } else {                                                //如果密码修改了
                 $data['Password'] = md5($data['Password'] . $data['salt']);
             }
         }
